@@ -1,0 +1,22 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+variables:
+  DEPENDENCY_SCANNING_DISABLED: "true"
+
+test:
+  stage: test
+  image: microsoft/dotnet:latest
+  script:
+    - 'dotnet test --no-restore'
+
+license_management:
+  stage: test
+  before_script:
+    - sudo apt-get update
+    - sudo apt-get install -y dotnet-runtime-2.2 dotnet-sdk-2.2
+
+production:
+  environment:
+    name: eks/production
+    url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
