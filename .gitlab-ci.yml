@@ -1,8 +1,29 @@
+
+stages:
+  - build
+  - test
+  - deploy  # dummy stage to follow the template guidelines
+  - review
+  - dast
+  - deploy test/dev
+  - staging
+  - canary
+  - production
+  - incremental rollout 10%
+  - incremental rollout 25%
+  - incremental rollout 50%
+  - incremental rollout 100%
+  - performance
+  - cleanup
+
+
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
 variables:
   DEPENDENCY_SCANNING_DISABLED: "true"
+  STAGING_ENABLED: "true"
+  
 
 test:
   stage: test
@@ -18,5 +39,45 @@ license_management:
 
 production:
   environment:
-    name: eks/production
+    name: aks/production
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
+
+
+deploy_test:
+  extends: .auto-deploy
+  stage: deploy test/dev
+  script:
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy initialize_tiller
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+   name: test
+   url: http://$CI_PROJECT_PATH_SLUG-staging.$KUBE_INGRESS_BASE_DOMAIN
+  only:
+    refs:
+      - master
+    kubernetes: active
+
+deploy_dev:
+  extends: .auto-deploy
+  stage: deploy test/dev
+  script:
+    - auto-deploy check_kube_domain
+    - auto-deploy download_chart
+    - auto-deploy ensure_namespace
+    - auto-deploy initialize_tiller
+    - auto-deploy create_secret
+    - auto-deploy deploy
+  environment:
+    name: dev
+    url: http://$CI_PROJECT_PATH_SLUG-staging.$KUBE_INGRESS_BASE_DOMAIN
+  only:
+    refs:
+      - master
+    kubernetes: active
+    
+    
+    
