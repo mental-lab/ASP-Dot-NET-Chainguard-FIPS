@@ -37,7 +37,7 @@ license_management:
     - sudo apt-get update
     - sudo apt-get install -y dotnet-runtime-2.2 dotnet-sdk-2.2
 
-production:
+production_manual:
   environment:
     name: aks/production
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
