@@ -39,7 +39,7 @@ license_management:
 
 production_manual:
   environment:
-    name: aks/production
+    name: production-aks
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
 
 
@@ -54,7 +54,7 @@ deploy_test:
     - auto-deploy create_secret
     - auto-deploy deploy
   environment:
-   name: test
+   name: test-gke
    url: http://$CI_PROJECT_PATH_SLUG-staging.$KUBE_INGRESS_BASE_DOMAIN
   only:
     refs:
@@ -72,7 +72,7 @@ deploy_dev:
     - auto-deploy create_secret
     - auto-deploy deploy
   environment:
-    name: dev
+    name: dev-gke
     url: http://$CI_PROJECT_PATH_SLUG-staging.$KUBE_INGRESS_BASE_DOMAIN
   only:
     refs:
