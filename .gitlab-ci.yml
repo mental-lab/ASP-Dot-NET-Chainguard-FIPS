@@ -4,7 +4,6 @@ stages:
   - deploy  # dummy stage to follow the template guidelines
   - review
   - dast
-  - deploy test/dev
   - staging
   - canary
   - production
@@ -44,7 +43,7 @@ production_manual:
 
 deploy_test:
   extends: .auto-deploy
-  stage: deploy test/dev
+  stage: staging
   script:
     - auto-deploy check_kube_domain
     - auto-deploy download_chart
@@ -62,7 +61,7 @@ deploy_test:
 
 deploy_dev:
   extends: .auto-deploy
-  stage: deploy test/dev
+  stage: staging
   script:
     - auto-deploy check_kube_domain
     - auto-deploy download_chart
