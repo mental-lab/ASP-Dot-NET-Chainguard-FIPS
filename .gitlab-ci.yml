@@ -38,7 +38,7 @@ license_management:
 
 production_manual:
   environment:
-    name: aks
+    name: aks/production
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
 
 
