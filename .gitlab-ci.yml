@@ -1,4 +1,3 @@
-
 stages:
   - build
   - test
@@ -39,7 +38,7 @@ license_management:
 
 production_manual:
   environment:
-    name: production-aks
+    name: aks
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
 
 
