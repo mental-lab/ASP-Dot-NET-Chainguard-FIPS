@@ -14,8 +14,7 @@ this should all look very familiar.
 
 ## What's contained in this project
 
-The root of the repository contains the out of the `dotnet new console` command,
-which generates a new console application that just prints out "Hello, World."
+The root of the repository contains ASP.net MVC application with GitLab Tanuki logo and a form. 
 It's a simple example, but great for demonstrating how easy GitLab CI is to
 use with .NET. Check out the `Program.cs` and `dotnetcore.csproj` files to
 see how these work.
