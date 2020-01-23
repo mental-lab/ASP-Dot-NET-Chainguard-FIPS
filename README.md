@@ -20,9 +20,8 @@ It's a simple example, but great for demonstrating how easy GitLab CI is to
 use with .NET. Check out the `Program.cs` and `dotnetcore.csproj` files to
 see how these work.
 
-In addition to the .NET Core content, there is a ready-to-go `.gitignore` file
-sourced from the the .NET Core [.gitignore](https://github.com/dotnet/core/blob/master/.gitignore). This
-will help keep your repository clean of build files and other configuration.
+In addition to the .NET Core content, there is a ready-to-go `Dockerfile` file
+that will build a docker image for this app
 
 Finally, the `.gitlab-ci.yml` contains the configuration needed for GitLab
 to build your code. Let's take a look, section by section.
