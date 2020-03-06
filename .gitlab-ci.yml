@@ -17,6 +17,7 @@ stages:
 
 include:
   - template: Auto-DevOps.gitlab-ci.yml
+  - remote: 'https://gitlab.com/guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer/-/raw/master/ci-cd-plugin-extension-net-portability-analyzer.yml'
 
 variables:
   DEPENDENCY_SCANNING_DISABLED: "true"
@@ -29,15 +30,10 @@ test:
   script:
     - 'dotnet test --no-restore'
 
-# START Microsoft Dot Net Compatibility Analyzer
-include:
-  - remote: 'https://gitlab.com/guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer/-/raw/master/ci-cd-plugin-extension-net-portability-analyzer.yml'
-
 test_dotnet_compat:
   extends: .ci-cd-plugin-extension-net-compatibility-analyzer
   variables:
     ASSEMBLY_DIRECTORY_TO_ANALYZE: "$pwd"
-# END: Microsoft Dot Net Compatibility Analyzer
 
 license_management:
   stage: test
