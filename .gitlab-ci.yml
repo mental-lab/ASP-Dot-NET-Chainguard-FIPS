@@ -17,7 +17,9 @@ stages:
 
 include:
   - template: Auto-DevOps.gitlab-ci.yml
-  - remote: 'https://gitlab.com/guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer/-/raw/master/ci-cd-plugin-extension-net-portability-analyzer.yml'
+  - project: 'guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer'
+    file: '/ci-cd-plugin-extension-net-portability-analyzer.yml'
+
 
 variables:
   DEPENDENCY_SCANNING_DISABLED: "true"
