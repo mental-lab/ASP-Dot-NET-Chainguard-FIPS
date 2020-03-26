@@ -28,7 +28,7 @@ variables:
 build:
   artifacts:
     paths:
-      - "/app/out/**/*"
+      - "/app/bin/Release/**/*"
 
 test:
   stage: test
@@ -39,7 +39,7 @@ test:
 test_dotnet_compat:
   extends: .ci-cd-plugin-extension-net-compatibility-analyzer
   variables:
-    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/out"
+    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/bin/Release"
 
 license_management:
   stage: test
