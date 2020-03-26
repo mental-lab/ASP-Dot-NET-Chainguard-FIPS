@@ -28,7 +28,7 @@ variables:
 build:
   artifacts:
     paths:
-      - "/app/out/"
+      - "/app/out/**/*"
 
 test:
   stage: test
