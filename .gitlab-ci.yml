@@ -25,6 +25,10 @@ variables:
   DEPENDENCY_SCANNING_DISABLED: "true"
   STAGING_ENABLED: "true"
   
+build:
+  artifacts:
+    paths:
+      - "app/out"
 
 test:
   stage: test
@@ -35,7 +39,7 @@ test:
 test_dotnet_compat:
   extends: .ci-cd-plugin-extension-net-compatibility-analyzer
   variables:
-    ASSEMBLY_DIRECTORY_TO_ANALYZE: "$pwd"
+    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/out"
 
 license_management:
   stage: test
