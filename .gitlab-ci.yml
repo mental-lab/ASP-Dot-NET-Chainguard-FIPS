@@ -15,9 +15,9 @@ stages:
   - cleanup
 
 
-include:
-  - template: Auto-DevOps.gitlab-ci.yml
-  - project: 'guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer'
+#include:
+#  - template: Auto-DevOps.gitlab-ci.yml
+#  - project: 'guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer'
     file: '/ci-cd-plugin-extension-net-portability-analyzer.yml'
 
 
@@ -36,10 +36,10 @@ test:
   script:
     - 'dotnet test --no-restore'
 
-test_dotnet_compat:
-  extends: .ci-cd-plugin-extension-net-compatibility-analyzer
-  variables:
-    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/bin/Release"
+#test_dotnet_compat:
+#  extends: .ci-cd-plugin-extension-net-compatibility-analyzer
+#  variables:
+#    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/bin/Release"
 
 license_management:
   stage: test
