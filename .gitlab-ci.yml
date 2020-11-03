@@ -1,93 +1,11 @@
-stages:
-  - build
-  - test
-  - deploy  # dummy stage to follow the template guidelines
-  - review
-  - dast
-  - staging
-  - canary
-  - production
-  - incremental rollout 10%
-  - incremental rollout 25%
-  - incremental rollout 50%
-  - incremental rollout 100%
-  - performance
-  - cleanup
-
-
-#include:
-#  - template: Auto-DevOps.gitlab-ci.yml
-#  - project: 'guided-explorations/templates/ci-cd-plugin-extensions/ci-cd-plugin-extension-net-portability-analyzer'
-    file: '/ci-cd-plugin-extension-net-portability-analyzer.yml'
-
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
 
 variables:
-  DEPENDENCY_SCANNING_DISABLED: "true"
-  STAGING_ENABLED: "true"
+  SECURE_LOG_LEVEL: "debug"
   
-build:
-  artifacts:
-    paths:
-      - "/app/bin/Release/**/*"
-
 test:
   stage: test
   image: microsoft/dotnet:latest
   script:
     - 'dotnet test --no-restore'
-
-#test_dotnet_compat:
-#  extends: .ci-cd-plugin-extension-net-compatibility-analyzer
-#  variables:
-#    ASSEMBLY_DIRECTORY_TO_ANALYZE: "/app/bin/Release"
-
-license_management:
-  stage: test
-  before_script:
-    - sudo apt-get update
-    - sudo apt-get install -y dotnet-runtime-2.2 dotnet-sdk-2.2
-
-production_manual:
-  environment:
-    name: aks/production
-    url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
-
-
-deploy_test:
-  extends: .auto-deploy
-  stage: staging
-  script:
-    - auto-deploy check_kube_domain
-    - auto-deploy download_chart
-    - auto-deploy ensure_namespace
-    - auto-deploy initialize_tiller
-    - auto-deploy create_secret
-    - auto-deploy deploy
-  environment:
-   name: test-gke
-   url: http://$CI_PROJECT_PATH_SLUG-test.$KUBE_INGRESS_BASE_DOMAIN
-  only:
-    refs:
-      - master
-    kubernetes: active
-
-deploy_dev:
-  extends: .auto-deploy
-  stage: staging
-  script:
-    - auto-deploy check_kube_domain
-    - auto-deploy download_chart
-    - auto-deploy ensure_namespace
-    - auto-deploy initialize_tiller
-    - auto-deploy create_secret
-    - auto-deploy deploy
-  environment:
-    name: dev-gke
-    url: http://$CI_PROJECT_PATH_SLUG-dev.$KUBE_INGRESS_BASE_DOMAIN
-  only:
-    refs:
-      - master
-    kubernetes: active
-    
-    
-    
