@@ -1,7 +1,6 @@
 ## Introduction
 
-This is a simple pipeline example for a .NET Core application, showing just
-how easy it is to get up and running with .NET development using GitLab.
+This is a simple ASP.NET Core application configured to run with Chainguard FIPS-compliant Docker images. It demonstrates how to run both an ASP.NET Core application and PostgreSQL database in a secure, containerized environment.
 
 # Reference links
 
@@ -68,3 +67,42 @@ test:
 This should be enough to get you started. There are many, many powerful options 
 for your `.gitlab-ci.yml`. You can read about them in our documentation 
 [here](https://docs.gitlab.com/ee/ci/yaml/).
+
+## Running with Chainguard FIPS-compliant Images
+
+This project has been configured to run using Chainguard FIPS-compliant Docker images for both the ASP.NET Core application and PostgreSQL database.
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- .NET SDK 8.0 or later (for local development)
+
+### Running the Application
+
+1. Build the application:
+   ```bash
+   dotnet publish -c Release -o ./publish
+   ```
+
+2. Start the containers:
+   ```bash
+   docker-compose up
+   ```
+
+3. Access the application at http://localhost:5000
+
+### Configuration
+
+The docker-compose.yml file is configured to:
+
+- Use Chainguard FIPS-compliant images for ASP.NET Core and PostgreSQL
+- Run containers as non-root users for enhanced security
+- Set up a PostgreSQL database with proper health checks
+- Mount the published application files into the container
+
+### Security Features
+
+- FIPS-compliant cryptographic modules via Chainguard images
+- Non-root container execution
+- Health checks to ensure services are ready
+- Proper volume permissions

@@ -1,16 +1,21 @@
-FROM microsoft/dotnet:sdk@sha256:d2f919654e100154e62cb2ccf023a6bfda5b8364b390c88101add859841c45fd AS build-env
-WORKDIR /app
+# Build stage
+FROM cgr.dev/chainguard-private/dotnet-sdk-fips:8-dev AS build
+WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+COPY ["AspMVC.csproj", "./"]
+RUN dotnet restore "AspMVC.csproj"
 
 # Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY . .
+RUN dotnet publish "AspMVC.csproj" -c Release -o /app/publish
 
-# Build runtime image
-FROM microsoft/dotnet:aspnetcore-runtime@sha256:3372d9791da05212be80f9f642c9dc5f098abf88889d32d196ceb81a36f23a3a
+# Runtime stage
+FROM cgr.dev/chainguard-private/aspnet-runtime-fips:8-dev
 WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "AspMVC.dll", "--urls", "http://*:5000"]
+
+# Copy the published app from the build stage
+COPY --from=build /app/publish .
+
+# Set the entry point
+ENTRYPOINT ["/usr/bin/dotnet", "AspMVC.dll"]
